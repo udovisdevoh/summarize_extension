@@ -17,31 +17,6 @@
     <div id="output" class="loader">Récupération du résumé en cours...</div>
   </div>
 
-  <script>
-    // Fonction pour lire le résumé
-    function loadSummary() {
-      chrome.storage.local.get('last_summary', (data) => {
-        if (data.last_summary) {
-          const output = document.getElementById('output');
-          output.innerText = data.last_summary;
-          output.classList.remove('loader');
-        }
-      });
-    }
-
-    // Charger immédiatement
-    loadSummary();
-
-    // Au cas où le stockage est un peu lent, on vérifie toutes les 500ms
-    const interval = setInterval(() => {
-      chrome.storage.local.get('last_summary', (data) => {
-        if (data.last_summary && data.last_summary !== "Récupération du résumé en cours...") {
-          document.getElementById('output').innerText = data.last_summary;
-          document.getElementById('output').classList.remove('loader');
-          clearInterval(interval);
-        }
-      });
-    }, 500);
-  </script>
+  <script src="result.js"></script>
 </body>
 </html>
