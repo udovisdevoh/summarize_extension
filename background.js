@@ -29,7 +29,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           contents: [{
-            parts: [{ text: `Résume-moi ce lien en français : ${linkUrl}` }]
+            parts: [{ text: `Résume-moi le contenu de cette page ou le contenu du vidéo si c'est un vidéo sur youtube. Mentionnez le URL au début de votre réponse : ${linkUrl}` }]
           }]
         })
       });
