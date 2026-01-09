@@ -9,6 +9,10 @@ chrome.runtime.onInstalled.addListener(() => {
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   if (info.menuItemId === "summarizeLink") {
     const linkUrl = info.linkUrl;
+    
+    // NETTOYAGE : On efface le précédent résumé pour éviter les confusions
+    await chrome.storage.local.set({ last_summary: "Analyse en cours par Gemini..." });
+    
     const data = await chrome.storage.local.get('gemini_api_key');
     
     if (!data.gemini_api_key) {

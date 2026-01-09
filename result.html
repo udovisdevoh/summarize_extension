@@ -2,22 +2,46 @@
 <html>
 <head>
   <meta charset="UTF-8">
+  <title>Résumé Gemini</title>
   <style>
-    body { font-family: 'Segoe UI', sans-serif; padding: 40px; line-height: 1.6; max-width: 800px; margin: auto; background: #f9f9f9; }
-    .container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-    h1 { color: #1a73e8; border-bottom: 2px solid #eee; padding-bottom: 10px; }
-    #output { white-space: pre-wrap; color: #333; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 40px; line-height: 1.6; max-width: 800px; margin: auto; background: #f4f7f6; color: #333; }
+    .container { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+    h1 { color: #0b57d0; border-bottom: 2px solid #eef2ff; padding-bottom: 15px; margin-top: 0; }
+    #output { white-space: pre-wrap; font-size: 1.1em; }
+    .loader { color: #666; font-style: italic; }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Résumé de l'IA</h1>
-    <div id="output">Chargement...</div>
+    <div id="output" class="loader">Récupération du résumé en cours...</div>
   </div>
+
   <script>
-    chrome.storage.local.get('last_summary', (data) => {
-      document.getElementById('output').innerText = data.last_summary || "Aucun résumé trouvé.";
-    });
+    // Fonction pour lire le résumé
+    function loadSummary() {
+      chrome.storage.local.get('last_summary', (data) => {
+        if (data.last_summary) {
+          const output = document.getElementById('output');
+          output.innerText = data.last_summary;
+          output.classList.remove('loader');
+        }
+      });
+    }
+
+    // Charger immédiatement
+    loadSummary();
+
+    // Au cas où le stockage est un peu lent, on vérifie toutes les 500ms
+    const interval = setInterval(() => {
+      chrome.storage.local.get('last_summary', (data) => {
+        if (data.last_summary && data.last_summary !== "Récupération du résumé en cours...") {
+          document.getElementById('output').innerText = data.last_summary;
+          document.getElementById('output').classList.remove('loader');
+          clearInterval(interval);
+        }
+      });
+    }, 500);
   </script>
 </body>
 </html>
