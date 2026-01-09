@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; padding: 40px; line-height: 1.6; max-width: 800px; margin: auto; background: #f9f9f9; }
+    .container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    h1 { color: #1a73e8; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+    #output { white-space: pre-wrap; color: #333; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Résumé de l'IA</h1>
+    <div id="output">Chargement...</div>
+  </div>
+  <script>
+    chrome.storage.local.get('last_summary', (data) => {
+      document.getElementById('output').innerText = data.last_summary || "Aucun résumé trouvé.";
+    });
+  </script>
+</body>
+</html>
